@@ -1,0 +1,125 @@
+# Bank Management System using Classes in Python
+
+class BankAccount:
+    def __init__(self, account_number, name, balance=0):
+        self.account_number = account_number
+        self.name = name
+        self.balance = balance
+
+    # Deposit money
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            print(f"₹{amount} deposited successfully.")
+        else:
+            print("Invalid deposit amount.")
+
+    # Withdraw money
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print("Insufficient balance.")
+        elif amount <= 0:
+            print("Invalid withdrawal amount.")
+        else:
+            self.balance -= amount
+            print(f"₹{amount} withdrawn successfully.")
+
+    # Display account details
+    def display_details(self):
+        print("\n--- Account Details ---")
+        print(f"Account Number : {self.account_number}")
+        print(f"Account Holder : {self.name}")
+        print(f"Balance        : ₹{self.balance}")
+
+
+class Bank:
+    def __init__(self):
+        self.accounts = {}
+
+    # Create new account
+    def create_account(self):
+        account_number = input("Enter Account Number: ")
+        
+        if account_number in self.accounts:
+            print("Account already exists.")
+            return
+        
+        name = input("Enter Account Holder Name: ")
+        initial_balance = float(input("Enter Initial Deposit Amount: "))
+        
+        self.accounts[account_number] = BankAccount(account_number, name, initial_balance)
+        print("Account created successfully!")
+
+    # Deposit money
+    def deposit_money(self):
+        account_number = input("Enter Account Number: ")
+        
+        if account_number in self.accounts:
+            amount = float(input("Enter amount to deposit: "))
+            self.accounts[account_number].deposit(amount)
+        else:
+            print("Account not found.")
+
+    # Withdraw money
+    def withdraw_money(self):
+        account_number = input("Enter Account Number: ")
+        
+        if account_number in self.accounts:
+            amount = float(input("Enter amount to withdraw: "))
+            self.accounts[account_number].withdraw(amount)
+        else:
+            print("Account not found.")
+
+    # Check account details
+    def check_account(self):
+        account_number = input("Enter Account Number: ")
+        
+        if account_number in self.accounts:
+            self.accounts[account_number].display_details()
+        else:
+            print("Account not found.")
+
+    # Display all accounts
+    def display_all_accounts(self):
+        if not self.accounts:
+            print("No accounts available.")
+            return
+        
+        for account in self.accounts.values():
+            account.display_details()
+
+
+# Main Program
+def main():
+    bank = Bank()
+
+    while True:
+        print("\n===== Bank Management System =====")
+        print("1. Create Account")
+        print("2. Deposit Money")
+        print("3. Withdraw Money")
+        print("4. Check Account Details")
+        print("5. Display All Accounts")
+        print("6. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            bank.create_account()
+        elif choice == "2":
+            bank.deposit_money()
+        elif choice == "3":
+            bank.withdraw_money()
+        elif choice == "4":
+            bank.check_account()
+        elif choice == "5":
+            bank.display_all_accounts()
+        elif choice == "6":
+            print("Thank you for using Bank Management System!")
+            break
+        else:
+            print("Invalid choice! Please try again.")
+
+
+# Run the program
+main()
